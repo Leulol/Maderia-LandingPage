@@ -582,23 +582,23 @@
         <div class="checklist-title">Which features are most urgent for your center?</div>
         <div class="checkbox-grid">
           <label class="checkbox-item">
-            <input type="checkbox" name="desired_features[]" value="Centralized Roster & Batches"> 
+            <input type="checkbox" name="desired_features" value="Centralized Roster & Batches"> 
             Central Roster & Batch Management
           </label>
           <label class="checkbox-item">
-            <input type="checkbox" name="desired_features[]" value="Payment Logging"> 
+            <input type="checkbox" name="desired_features" value="Payment Logging"> 
             Telebirr, CBE & Cash Payment Logging
           </label>
           <label class="checkbox-item">
-            <input type="checkbox" name="desired_features[]" value="Fast Daily Attendance"> 
+            <input type="checkbox" name="desired_features" value="Fast Daily Attendance"> 
             Fast Daily Attendance & Summaries
           </label>
           <label class="checkbox-item">
-            <input type="checkbox" name="desired_features[]" value="High-Level Revenue Dashboard"> 
+            <input type="checkbox" name="desired_features" value="High-Level Revenue Dashboard"> 
             Revenue & Income Dashboard
           </label>
           <label class="checkbox-item">
-            <input type="checkbox" name="desired_features[]" value="Automated Overdue Alerts"> 
+            <input type="checkbox" name="desired_features" value="Automated Overdue Alerts"> 
             Overdue Fee Alerts Dashboard 
           </label>
         </div>
@@ -665,6 +665,26 @@
       document.querySelectorAll('.fade-up').forEach(el => {
         observer.observe(el);
       });
+      //Custom submit Form
+      const form = document.querySelector("form"); //Finding the form tab on the page
+        if (form) {
+        form.addEventListener("submit", (e) => { //If form is submitted it will do this
+            const selected = Array.from( // converted the checked list into array
+            document.querySelectorAll("input[name='desired_features']:checked")
+            ).map(item => item.value); //Loops throuh the checked condition above and gets the item.value(name) of the checked items
+            // ["Centralized Roster & Batches", "Payment Logging"]
+            const hidden = document.createElement("input");//creates new invisable input field
+            hidden.type = "hidden";//Makes it hidden from the page
+            hidden.name = "desired_features";//the same name as the df to have the same property
+            hidden.value = selected.join("\n");
+            form.appendChild(hidden);
+            //So the whole logic is first the .map loops through the selected field and while doing 
+            // that we creaate an invisable input field  in the same area as the input .map as they have the same name then go to the .map again
+            document.querySelectorAll("input[name='desired_features']:checked").forEach(input => {
+            input.disabled = true;
+            });//Dispables the blank inputs but the Data has already have new lines
+        });
+        }
     });
   </script>
 </body>
